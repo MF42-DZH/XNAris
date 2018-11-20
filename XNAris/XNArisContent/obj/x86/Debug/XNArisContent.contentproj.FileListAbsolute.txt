@@ -1,0 +1,2 @@
+C:\Users\Lenovo W7P\source\repos\XNAris\XNAris\XNArisContent\obj\x86\Debug\XNArisContent.contentprojAssemblyReference.cache
+C:\Users\Lenovo W7P\source\repos\XNAris\XNAris\XNArisContent\obj\x86\Debug\XNArisContent.contentproj.CoreCompileInputs.cache
