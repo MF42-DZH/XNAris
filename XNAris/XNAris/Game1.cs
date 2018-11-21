@@ -193,7 +193,7 @@ namespace XNAris
                 {
                     int[,] newSpawnedPiece = Rotate(SpawnedPiece, ks.IsKeyDown(Keys.Z) || ks.IsKeyDown(Keys.C) ? true : false);
 
-                    PlaceStates ps = CanPlace(Matrix, SpawnedPiece, (int)NewSpawnedPieceLocation.X, (int)NewSpawnedPieceLocation.Y);
+                    PlaceStates ps = CanPlace(Matrix, SpawnedPiece, (int)SpawnedPieceLocation.X, (int)SpawnedPieceLocation.Y);
                     if (ps == PlaceStates.CAN_PLACE)
                     {
                         SpawnedPiece = newSpawnedPiece;
@@ -216,10 +216,10 @@ namespace XNAris
                 PlaceStates ps = CanPlace(Matrix, SpawnedPiece, (int)NewSpawnedPieceLocation.X, (int)NewSpawnedPieceLocation.Y);
                 if (ps != PlaceStates.CAN_PLACE)
                 {
-                    Place(Matrix, SpawnedPiece, (int)NewSpawnedPieceLocation.X, (int)NewSpawnedPieceLocation.Y);
+                    Place(Matrix, SpawnedPiece, (int)SpawnedPieceLocation.X, (int)SpawnedPieceLocation.Y);
                     SpawnPiece();
 
-                    ps = CanPlace(Matrix, SpawnedPiece, (int)NewSpawnedPieceLocation.X, (int)NewSpawnedPieceLocation.Y);
+                    ps = CanPlace(Matrix, SpawnedPiece, (int)SpawnedPieceLocation.X, (int)SpawnedPieceLocation.Y);
                     if (ps == PlaceStates.BLOCKED)
                     {
                         this.Exit();
@@ -255,11 +255,34 @@ namespace XNAris
 
                     if (Matrix[x, y] == 0)
                     {
-                        tintColor = Color.Transparent;
+                        tintColor = Color.FromNonPremultiplied(50, 50, 50, 50);
                     }
 
-                    spriteBatch.Draw(MinoSkin,
-                        new Rectangle((int)MatrixLocation.X + x * MinoSize, (int)MatrixLocation.Y + y * MinoSize, MinoSize, MinoSize), tintColor);
+                    spriteBatch.Draw(MinoSkin, new Rectangle((int)MatrixLocation.X + x * MinoSize, (int)MatrixLocation.Y + y * MinoSize, MinoSize, MinoSize), tintColor);
+                }
+            }
+
+            int sidelen;
+            try
+            {
+                sidelen = SpawnedPiece.GetLength(0);
+            }
+            catch (NullReferenceException)
+            {
+                SpawnPiece();
+                sidelen = SpawnedPiece.GetLength(0);
+            }
+            
+            for (int y = 0; y < sidelen; y++)
+            {
+                for (int x = 0; x < sidelen; x++)
+                {
+                    if (SpawnedPiece[x, y] != 0)
+                    {
+                        Color tintColor = MinoColors[SpawnedPiece[x, y]];
+
+                        spriteBatch.Draw(MinoSkin, new Rectangle((int)MatrixLocation.X + x * MinoSize, (int)MatrixLocation.Y + y * MinoSize, MinoSize, MinoSize), tintColor);
+                    }
                 }
             }
 
